@@ -19,10 +19,13 @@ const App: React.FC = () => {
   const intervalRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
 
-  const getLatestState = useCallback(() => ({
-    gameInstance,
-    winner,
-  }), [gameInstance, winner]);
+  const getLatestState = useCallback(
+    () => ({
+      gameInstance,
+      winner,
+    }),
+    [gameInstance, winner]
+  );
 
   const updateGame = useCallback(() => {
     const { gameInstance, winner } = getLatestState();
@@ -30,7 +33,7 @@ const App: React.FC = () => {
       gameInstance.update();
       setGrid(gameInstance.grid);
       setTurn(gameInstance.turn);
-      
+
       if (gameInstance.isProgress === "ended") {
         const gameWinner = gameInstance.checkForWinner();
         if (gameWinner) {
@@ -61,7 +64,7 @@ const App: React.FC = () => {
         clearTimeout(intervalRef.current);
       }
     }
-  }, [start, winner, isPaused,updateGame, remainingTime]);
+  }, [start, winner, isPaused, updateGame, remainingTime]);
 
   const handlePause = () => {
     if (intervalRef.current && startTimeRef.current) {
@@ -199,7 +202,9 @@ const App: React.FC = () => {
           >
             Add Player
           </button>
-
+          <div>
+            <p>The Players move every 5 seconds.</p>
+          </div>
           <h2 className="text-xl">Turn: {turn}</h2>
           <div className="grid gap-1">
             {grid.map((row, rowIndex) => (
@@ -230,6 +235,6 @@ const App: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default App;
